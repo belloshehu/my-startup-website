@@ -37,9 +37,9 @@ class Products(models.Model):
 class Author(models.Model):
     title = models.CharField(max_length=15, choices=TITLES)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    picture = models.FileField(verbose_name="Tutor's Picture")
-    about = models.TextField(verbose_name='About Tutor')
-    phone_number = models.CharField(verbose_name="Tutor's phone number", max_length=14)
+    picture = models.FileField(verbose_name="Author's Picture")
+    about = models.TextField(verbose_name='About author')
+    phone_number = models.CharField(verbose_name="Author's phone number", max_length=14)
 
     def __str__(self):
         return '{} {}'.format(self.user.first_name, self.user.last_name)
@@ -116,3 +116,21 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return '{} {},{}'.format(self.title,self.user.first_name,self.last_name)
+
+    
+class Enquiry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    description = models.TextField(verbose_name='Equiry body', max_length=600)
+
+    def __str__(self):
+        return '{} from {} {}'.format(self.title, self.user.first_name, self.user.last_name)
+
+class Circuit(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField(verbose_name='Equiry message', max_length=600)
+    diagram = models.FileField(verbose_name='Circuit diagram')
+    designer = models.ForeignKey(Author, on_delete=models.CASCADE)  
+
+    def __str__(self):
+        return '{} by {} {}'.format(self.title, self.designer.user.first_name, self.designer.user.last_name)
