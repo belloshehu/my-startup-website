@@ -9,6 +9,21 @@ TITLES =[
     ('DR','Doctor'),
     ('PROF','Professor'),
 ]
+
+CURRENCIES = [
+    ('NAIRA','#'),
+    ('US DOLLAR','$'),
+    ('POUNDS','P')
+]
+
+POSITIONS = [
+    ('CEO','CEO'),
+    ('AUTHOR','Author'),
+    ('TUTOR','Tutor'),
+    ('SELLS MANAGER','Sells manager'),
+    ('DEVELOPER','Developer'),
+    ('INTERN', 'Internship Student')
+]
 '''class Shipping(models.Model):
     departure = models.CharField(verbose_name="Depart from")
 
@@ -20,7 +35,7 @@ class Products(models.Model):
 '''
 
 class Author(models.Model):
-    title = models.Model(max_length=15, choices=TITLES)
+    title = models.CharField(max_length=15, choices=TITLES)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     picture = models.FileField(verbose_name="Tutor's Picture")
     about = models.TextField(verbose_name='About Tutor')
@@ -33,9 +48,9 @@ class Author(models.Model):
 class Tutorial(models.Model):
     title = models.CharField(verbose_name='Title', max_length=100)
     content = models.TextField(verbose_name='Content', max_length=2000)
-    video_link = models.URLField(verbose_name='Tutiral video link',max_length=50)
+    video_link = models.URLField(verbose_name='Tutorial video link',max_length=50)
     images = models.FileField(verbose_name='Tutorial images')
-    tutor = models.ManyToManyField(Author, verbose_name="Tutor(s)",through='Tutorships')
+    tutor = models.ManyToManyField(Author, verbose_name="Tutor(s)",through='Tutorship')
     date_published = models.DateTimeField()
 
     def __str__(self):
@@ -54,7 +69,7 @@ class Project(models.Model):
     description = models.TextField(verbose_name='Content', max_length=2000)
     writeup = models.FileField(verbose_name='Project writeup')
     cost = models.FloatField(verbose_name='Cost')
-    author = models.ForeignKey(Author, verbose_name='Author')
+    author = models.ManyToManyField(Author, verbose_name='Author', through='Projectship')
     date_published = models.DateTimeField()
     
     def __str__(self):
@@ -68,3 +83,36 @@ class Projectship(models.Model):
     def __str__(self):
         return '{} by {}, {}'.format(self.project.title,self.author.user.first_name, self.author.user.last_name)
     
+class Comment(models.Model):
+    user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE)
+    content = models.TextField(max_length=2000, verbose_name='Your comment')
+    date_of_comment = models.DateTimeField()
+
+    def __str__(self):
+        return 'Comment by {}'.format(self.user.username)
+
+
+class Service(models.Model):
+    title = models.CharField(verbose_name='Title', max_length=100)
+    description = models.TextField(verbose_name='Content', max_length=600)
+    cost = models.FloatField(max_length=10, blank=True)
+    currency = models.CharField(max_length=10, choices=CURRENCIES)
+
+    def __str__(self):
+        if not self.cost:
+            return self.title
+        else:
+            return '{}, {}{}'.format(self.title,self.currency,self.cost)
+
+class TeamMember(models.Model):
+    title = models.CharField(max_length=15, choices=TITLES)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    about = models.TextField(verbose_name='About team member')
+    phone_number = models.CharField(verbose_name="Member's phone number", max_length=14)
+    position = models.CharField(verbose_name='Position', max_length=20, choices=POSITIONS)
+    picture = models.FileField(verbose_name="Member's Picture") 
+    twitter_handle = models.URLField(blank=True)   
+    instagram_handle = models.URLField(blank=True)
+
+    def __str__(self):
+        return '{} {},{}'.format(self.title,self.user.first_name,self.last_name)
