@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, auth
+#
+from django_countries.fields import CountryField
 
 # Create your models here.
 TITLES =[
@@ -15,7 +17,11 @@ CURRENCIES = [
     ('US DOLLAR','$'),
     ('POUNDS','P')
 ]
-
+STATES =('Abuja','Abia','Adamawa','Akwa-Ibom','Anambra','Bauchi','Bayelsa',
+'Benue','Borno','Cross-River','Delta','Ebonyi','Edo','Ekiti','Enugu','Gombe',
+'Ibadan','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara',
+'Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','River','Sokoto','Taraba',
+'Yobe','Zamfara')
 POSITIONS = [
     ('CEO','CEO'),
     ('AUTHOR','Author'),
@@ -24,15 +30,50 @@ POSITIONS = [
     ('DEVELOPER','Developer'),
     ('INTERN', 'Internship Student')
 ]
-'''class Shipping(models.Model):
-    departure = models.CharField(verbose_name="Depart from")
 
-class Products(models.Model):
+
+class Product(models.Model):
+    name = models.CharField(verbose_name='Product name', max_length=50)
     description = models.TextField(verbose_name="Description", max_length=150)
-    price = models.FloatField(verbose_name="Price", max_length=5)
-    manual = models.FileField(verbose_name="Manual")
-    shipping = models.ForeignKey(Shipping,verbose_name="Shipping",on_delete=models.CASCADE)
-'''
+    price = models.FloatField(verbose_name="Price", max_length=10)
+    manual = models.FileField(verbose_name="Manual", blank=True)
+    currency = models.CharField(choices=CURRENCIES, max_length=10)
+
+    def __str__(self):
+        return '{} at {}{}'.format(self.name,self.currency,self.price)
+
+
+class ShippingAddress(models.Model):
+    destination_country = CountryField(verbose_name="Destination country")
+    state_province = models.CharField(max_length=50, verbose_name='State/Province')
+    city = models.CharField(max_length=50, verbose_name='City')
+    zip_code = models.IntegerField(verbose_name='Zip Code')
+    street_name = models.CharField(max_length=100, verbose_name='Street name', blank=True)
+
+    def __str__(self):
+        return '{}, {}, {}. {}'.format(self.street_name,self.city,self.state_province,self.destination_country)
+
+
+class Order(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    address = models.ForeignKey(ShippingAddress, on_delete=models.CASCADE)
+    date = models.DateTimeField(verbose_name='Shipped on')
+    currency = models.CharField(choices=CURRENCIES, max_length=10)
+    Shipping_method = models.CharField(verbose_name='Shipped through', max_length=50)
+    customer = models.ForeignKey(User, blank=True, max_length=50, on_delete=models.CASCADE, default='No customer details')
+
+    def __str__(self):
+        return '{} to {} on {}'.format(self.product.name, self.address,self.date)
+
+
+class Shipping(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    ShippingAddress = models.ForeignKey(ShippingAddress, on_delete=models.CASCADE)
+    date = models.DateTimeField(verbose_name='Shipped on')
+
+    def __str__(self):
+        return '{} shipped on {} to {}'.format(self.order,self.date,self.ShippingAddress)
+
 
 class Author(models.Model):
     title = models.CharField(max_length=15, choices=TITLES)
@@ -134,3 +175,24 @@ class Circuit(models.Model):
 
     def __str__(self):
         return '{} by {} {}'.format(self.title, self.designer.user.first_name, self.designer.user.last_name)
+
+
+class ProductReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    review = models.TextField(verbose_name='Customer Review', max_length=600)
+    rating = models.FloatField(verbose_name='Rating', max_length=1)
+
+    def __str__(self):
+        return '{} reviewed by {} {}'.format(self.product.name, self.user.first_name, self.user.last_name)
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField(verbose_name='Event discription', max_length=600)
+    event_picture = models.FileField(verbose_name="Event's Picture") 
+    date = models.DateTimeField()
+    venue = models.CharField(verbose_name='Venue', max_length=100)
+
+    def __str__(self):
+        return'{} by {}'.format(self.title,self.venue)
