@@ -74,6 +74,14 @@ class Shipping(models.Model):
     def __str__(self):
         return '{} shipped on {} to {}'.format(self.order,self.date,self.ShippingAddress)
 
+class Cart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, blank=True, max_length=50, on_delete=models.CASCADE, default='No customer details')
+    date = models.DateTimeField(verbose_name='Shipped on')
+
+    def __str__(self):
+        return '{} added by {} on {}'.format(self.product.name,self.customer, self.date )
+        
 
 class Author(models.Model):
     title = models.CharField(max_length=15, choices=TITLES)
@@ -110,6 +118,7 @@ class Project(models.Model):
     description = models.TextField(verbose_name='Content', max_length=2000)
     writeup = models.FileField(verbose_name='Project writeup')
     cost = models.FloatField(verbose_name='Cost')
+    currency = models.CharField(choices=CURRENCIES, max_length=10)
     author = models.ManyToManyField(Author, verbose_name='Author', through='Projectship')
     date_published = models.DateTimeField()
     
@@ -130,7 +139,7 @@ class Comment(models.Model):
     date_of_comment = models.DateTimeField()
 
     def __str__(self):
-        return 'Comment by {}'.format(self.user.username)
+        return 'Comment by {} on {}'.format(self.user.username,self.date_of_comment)
 
 
 class Service(models.Model):
