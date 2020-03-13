@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block carousels%}
+<hr>
+<div class="row">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 bg-success" style="text-align: left;margin-bottom: auto;"><h2>Tutorials</h2>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-warning " style="text-align: left;margin-bottom: 10px;">
+                <ul>
+                {%for tutorial in tutorials%}
+                    <li>
+                        <a href="#"><p class="titles" style="font-size: medium;">{{tutorial.title}}</p></a>                
+                    </li>
+                {%endfor%}
+                </ul>
+        </div>
+      </div>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 bg-success" style="margin:0px; border: 1px solid white"><h2>Tutorials</h2><hr>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 bg-secondary">
+            {%for tutorial in tutorials%}
+            <div class="jumbotron bg-success text-light j-items">
+                    <a href="#"><p><h3 class="titles"><u>{{tutorial.title}}</u> by </h3><span>{{tutorial.tutor.Author.user.User.username}}</span></p></a>
+                    <img src="{{tutorial.image.url}}">
+                    <p>{{tutorial.introduction}}</p>    
+            </div>
+            {%endfor%}
+        </div>
+        
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 bg-success"><h2>Projects</h2><hr >
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-success">
+            {%for project in projects%}
+            <div class="jumbotron bg-success j-items">
+                <h4>{{project.title}}</h4>
+                <img src="{{project.image.url}}">
+            </div>
+            {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
