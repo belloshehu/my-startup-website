@@ -5,12 +5,13 @@
 <div class="row">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xl-2 col-lg-2 col-md-2  bg-success" style="text-align: left;margin-bottom: auto;"><h2>Tutorials</h2>
+      <div class="col-xl-2 col-lg-2 col-md-2  bg-success" style="text-align: left;margin-bottom: auto;">
+        <h3>Tutorials<span class="badge">{{tutorials|length}}</span></h3>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-warning " style="text-align: left;margin-bottom: 10px;">
                 <ul>
                 {%for tutorial in tutorials%}
                     <li>
-                        <a href="tutorials/{{tutorship.id}}"><p class="titles" style="font-size: medium;">{{tutorial.title}}</p></a>                
+                        <a href="/tutorials/{{tutorial.id}}"><p class="titles" style="font-size: medium;">{{tutorial.title}}</p></a>                
                     </li>
                 {%endfor%}
                 </ul>
@@ -39,7 +40,7 @@
         </div>
         
       </div>
-      <div class="col-xl-2 col-lg-2 col-md-2  bg-success"><h2>Projects</h2><hr >
+      <div class="col-xl-2 col-lg-2 col-md-2  bg-success"><h3>Projects<span class="badge">{{projects|length}}</span></h3><hr >
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-success">
             {%for project in projects%}
             <div class="jumbotron bg-success j-items">
