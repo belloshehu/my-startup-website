@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block carousels%}
+<hr>
+<div class="row">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-2 col-lg-2 col-md-2  bg-success" style="text-align: left;margin-bottom: auto;"><h2>Tutorials</h2>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-warning " style="text-align: left;margin-bottom: 10px;">
+                <ul>
+                {%for tutorial in tutorials%}
+                    <li>
+                        <a href="tutorials/{{tutorship.id}}"><p class="titles" style="font-size: medium;">{{tutorial.title}}</p></a>                
+                    </li>
+                {%endfor%}
+                </ul>
+        </div>
+      </div>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 bg-success" style="margin:0px; border: 1px solid white"><h2>Tutorials</h2><hr>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-secondary">
+            <div class="jumbotron bg-success text-light j-items">
+                    <p><h3 class="titles"><u>{{tutorship.tutorial.title}}</u></h3>
+                        <span class="text-info"><b>Totor: </b>
+                            {%if tutorship.author.user.first_name%}
+                                {{tutorship.author.user.first_name}} {{tutorship.author.user.last_name}
+
+                            {%else%}
+                                {{tutorship.author.user.username}}
+                            {%endif%}
+                            
+                        </span></p>
+                    <img src="{{tutorship.Tutorial.image.url}}">
+                    <p>{{tutorship.tutorial.introduction}}</p>
+                    <p>{{tutorship.tutorial.content}}<br>
+                        <img src="{{tutorship.tutorial.images.url}}" alt="tutorial image"> <br>
+                        <video controls width="512" height="288" autoplay src="{%static 'videos/tutorial.mp4'%}" poster="{%static 'images/alafasy.jpg'%}" style="background-color: black;border: 2px solid white;"></video>
+                    </p>    
+            </div>
+        </div>
+        
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-2  bg-success"><h2>Projects</h2><hr >
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-success">
+            {%for project in projects%}
+            <div class="jumbotron bg-success j-items">
+                <h4>{{project.title}}</h4>
+                <img src="{{project.image.url}}">
+            </div>
+            {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
