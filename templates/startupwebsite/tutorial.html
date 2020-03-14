@@ -19,7 +19,7 @@
             </div>
             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 bg-success" style="margin:0px; border: 1px solid white"><h2>Tutorials</h2><hr>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-secondary">
-                    <div class="jumbotron bg-success text-light j-items">
+                    <div class="jumbotron text-light j-items bg-white" style="background-color: white; font-family: 'Time Roman','Courier New', Courier, monospace;">
                         <p><h3 class="titles"><u>{{tutorship.tutorial.title}}</u></h3>
                             <span class="text-info"><b>Totor: </b>
                                 {%if tutorship.author.user.first_name%}
@@ -31,7 +31,7 @@
                             </span></p>
                         <img src="{{tutorship.Tutorial.image.url}}">
                         <p>{{tutorship.tutorial.introduction}}</p>
-                        <p>{{tutorship.tutorial.content}}<br>
+                        <p>{{tutorship.tutorial.content}}<br><br>
                         <img src="{{tutorship.tutorial.images.url}}" alt="tutorial image"> <br>
                         <video controls width="512" height="288" autoplay src="{%static 'videos/tutorial.mp4'%}" poster="{%static 'images/alafasy.jpg'%}" style="background-color: black;border: 2px solid white;"></video>
                         </p>    
@@ -40,18 +40,21 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-secondary">
                         <div class="jumbotron bg-success text-light j-items"><h4>Comments<span class="badge">{{comments|length}}</span></h4><hr >
                             <div class="well">
-                                <form method="POST" action="/comment">
-                                        
+                                <form method="POST" action="/comment/{{tutorship.tutorial.id}}">
+                                        {%csrf_token%}
                                         <p><input class="form form-control"  type="email" placeholder="Email" name="email" required ></p>
                                         
-                                        <p><textarea class="form form-control" required placeholder="Enter comment here" cols="48" rows="10"></textarea></p>
+                                        <p><textarea class="form form-control" required placeholder="Enter comment here" cols="48" rows="10" name="comment"></textarea></p>
                                         <p><button class="btn btn-primary" type="submit">Submit</button></p>
                                 </form>
+                                {%for message in messages%}
+                                    <div class="alert alert-info alert-dismissible show bg-danger" id="comment">{{message}}</div>
+                                {%endfor%}
                             </div>
                             {%for comment in comments%}
-                            <div class="jumbotron bg-success j-items">
-                               <p>{{comment.user.username}} <span>{{comment.date_of_comment.date}} {{comment.date_of_comment.time}}</span></p>
-                               <p>{{comment.content}}</p>
+                            <div  class="jumbotron bg-primary" id="comment">
+                               <p>{{comment.user.username}} <br><br>{{comment.date_of_comment.date}} {{comment.date_of_comment.time}}</p><hr>
+                               <p >{{comment.content}}</p>
                             </div>  
                             {%endfor%}
                         </div>    
