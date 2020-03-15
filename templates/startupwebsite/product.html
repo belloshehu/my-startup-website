@@ -1,0 +1,53 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block carousels%}
+<hr>
+<div class="row">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-2 col-lg-2 col-md-2  bg-success" style="text-align: left;margin-bottom: auto;">
+        <h3>Tutorials<span class="badge">{{tutorials|length}}</span></h3>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-warning " style="text-align: left;margin-bottom: 10px;">
+                <ul>
+                {%for tutorial in tutorials%}
+                    <li>
+                        <a href="tutorials/{{tutorial.id}}"><p class="titles" style="font-size: medium;">{{tutorial.title}}</p></a>                
+                    </li>
+                {%endfor%}
+                </ul>
+        </div>
+    </div>
+    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 bg-success" style="margin:0px; border: 1px solid white">
+        <h2 class="titles">{{product.name}}</h2><hr>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-secondary">
+            <div class="jumbotron text-light j-items" id="content" style="padding-bottom: 5px;">
+                    <p>
+                        <img src="{{product.picture.url}}" alt="{{product.name}} image">
+                        <p>
+                                <small>
+                                    <p class="btn btn-warning">{{product.price}} {{product.currency}}</p>
+                                    <p class="btn btn-info">{{product.name}}</p>
+                                </small>
+                                <hr>
+                                <a href="cart/{{product.id}}"><button class="btn btn-info">Add to Cart</button></a>
+                                <a href="order/{{product.id}}"><button class="btn btn-info">Place</button></a>
+                        </p>
+                        <p class="content">{{product.description}}</p>
+                    </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2  bg-success"><h3>Projects<span class="badge">{{projects|length}}</span></h3><hr >
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bg-success">
+            {%for project in projects%}
+            <div class="jumbotron bg-success j-items">
+                <h4>{{project.title}}</h4>
+                <img src="{{project.image.url}}">
+            </div>
+            {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
