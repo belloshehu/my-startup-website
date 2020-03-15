@@ -27,7 +27,7 @@ def products(request):
     team_members = TeamMember.objects.all()
     context = {'products':products, 'projects':projects, 'team_members':team_members, 'tutorials':tutorials,
      'services':services,}
-    return render(request, 'products.html',context)
+    return render(request, 'startupwebsite/products.html',context)
 
 def login(request):
     form = LoginForm
@@ -51,7 +51,7 @@ def tutorial(request, tutorial_id):
     tutorials = Tutorial.objects.all()
     products = Product.objects.all()
     projects = Project.objects.all()
-    comments = Comment.objects.all()
+    comments = Comment.objects.filter(tutorial_id=tutorial_id)
     form = CommentForm
     context = {'tutorship':tutorial,'products':products, 'projects':projects,'tutorials':tutorials,'comments':comments,'form':form}
     return render(request, 'startupwebsite/tutorial.html', context)
@@ -59,17 +59,26 @@ def tutorial(request, tutorial_id):
 def handle_comment_submission(request, tutorial_id):
     email = request.POST['email']
     content = request.POST['comment']
-    user = User.objects.get(email=email)
-    if user is not None:
+    try:
+        user = User.objects.get(email=email)
         tutorial_id = int(tutorial_id)
         date_of_comment = datetime.now()
         comment = Comment(tutorial_id=tutorial_id, content=content, user_id=user.id, date_of_comment=date_of_comment)
         comment.save()
         return redirect('tutorial',tutorial_id)
-    else:
+    except User.DoesNotExist:
         messages.info(request, 'Error: Check your email or you should sign up')
         return redirect('tutorial',tutorial_id)
-    
+
+def sign_up(request):
+    return render(request, 'startupwebsite/signup.html')
+
+def product(request,product_id):
+    product_id = int(product_id)
+    product =Product.objects.get(id=product_id)
+    context = {'product':product}
+    return render(request, 'startupwebsite/product.html',context)
+
 
 
 
