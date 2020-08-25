@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
 
 ALLOWED_HOSTS = ['embeddedsite.heroku.com', '127.0.0.1']
 
@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'embeddedsite',
     'django_countries',
     'bootstrap4',
-
-    
 ]
 
 
