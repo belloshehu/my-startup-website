@@ -1,0 +1,125 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title %} Tutorial {% endblock %}
+{% block searchForm %}
+    <form class="navbar-form" action="" id="tutorials-search-form">
+        <div class="input-group">
+            <input type="text" class="form form-control mr-sm-2" placeholder="Search for tutorials" id="search-input">
+            <button class="btn btn-light round-btn" type="submit">
+               <li class="fa fa-search text-danger"></li>
+            </button>
+        </div>
+    </form>
+{% endblock %}
+{%block carousels%}
+<hr>
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-2 sidebar" style="text-align: left;margin-bottom: auto;">
+                <div class="row shadow-lg p-3 mb-5 bg-white text-dark">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: left;margin-bottom: 10px;padding: 0;">
+                        <h5>Tutorials  <span class="badge bg-danger text-light">{{tutorials|length}}</span></h5>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: left;margin-bottom: 10px;">
+                                <ul>
+                                {%for tutorial in tutorials%}
+                                    <li>
+                                        <i class="fa fa-graduation-cap text-danger" aria-hidden="true"></i>
+                                        <a href="tutorials/{{tutorial.id}}"><span class="text-dark" style="font-size: small;">{{tutorial.title}}</span></a>                
+                                    </li>
+                                {%endfor%}
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12" style="margin:0px;">
+                <div class="row shadow-sm p-3 mb-5 bg-white text-dark">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                        <div class="lead bg-white text-dark">
+                            <p><h5 class="text-info">{{tutorship.tutorial.title}} 
+                                <span class="text-danger lead">  <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    {%if tutorship.author.user.first_name%}
+                                        {{tutorship.author.user.first_name}} {{tutorship.author.user.last_name}}
+                                    {%else%}
+                                        {{tutorship.author.user.username}}
+                                    {%endif%}
+                                </span>
+                            </h5>
+                            </p>
+                                <span class="text-danger text-sm lead" >
+                                    <i class="fa fa-calendar text-success" aria-hidden="true"></i> {{tutorship.tutorial.date_published.date}}
+                                    <i class="fa fa-clock-o text-success" aria-hidden="true"></i> {{tutorship.tutorial.date_published.time}}
+                                </span>
+                            </p>
+                            
+                            <img src="{{tutorship.Tutorial.image.url}}">
+                            <p class="text-dark lead">{{tutorship.tutorial.introduction}}</p>
+                            <p class="text-dark lead">{{tutorship.tutorial.content}}<br><br>
+                            <img src="{{tutorship.tutorial.images.url}}" alt="tutorial image" width="100%" height="100%" style="margin: 1%;"> <br>
+                            <video controls width="100%" height="100%" autoplay src="{%static 'videos/tutorial.mp4'%}" poster="{%static 'images/alafasy.jpg'%}" style="background-color: black;border: 2px solid white;"></video>
+                            </p> 
+                        </div>
+                </div>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12"> 
+                            <h3>Comments<span class="badge bg-warning">{{comments|length}}</span>  
+                                <i class="fa fa-comments text-success" aria-hidden="true"></i>
+                            </h3>
+                            <div class="shadow-lg p-3 mb-5 bg-white text-dark ">
+                                <form method="POST" action="/comment/{{tutorship.tutorial.id}}">
+                                        {%csrf_token%}
+                                        <p><input class="form form-control"  type="email" placeholder="Email" name="email" required ></p> 
+                                        <p><textarea class="form form-control" required placeholder="Enter comment here" cols="48" rows="10" name="comment"></textarea></p>
+                                        <p><button class="btn btn-info" type="submit">Submit</button></p>
+                                </form>
+                                {%for message in messages%}
+                                    <div class="alert alert-info alert-dismissible show bg-danger" id="comment">{{message}}</div>
+                                {%endfor%}
+                            </div>
+                            {%for comment in comments%}
+                            <div  class="shadow-lg p-3 mb-5 bg-white text-dark comment">
+                               <div class="media">
+                                   <div class="media-top media-left">
+                                       <img class="img-circle" src="{%static 'images/avatar.jpg'%}" alt="profile image" width="60px">
+                                   </div>
+                                   <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <small><strong>{{comment.user.username}} </strong>|
+                                                <i class="text-info">
+                                                    <i class="fa fa-calendar text-success" aria-hidden="true"></i> {{comment.date_of_comment.date}} 
+                                                    <i class="fa fa-clock-o text-success" aria-hidden="true"></i> {{comment.date_of_comment.time}}
+                                                </i>
+                                            </small>
+                                        </h4>
+                                        <p class="shadow-sm p-3 mb-5 rounded text-dark bg-light text-md"><i class="fa fa-comment text-info" aria-hidden="true"></i> {{comment.content}}</p>
+                                   </div>
+                               </div>
+                               <small><span style="text-align: right;"><button class="btn btn-info" data-toggle="collapse" data-target="#{{comment.id}}">Reply</button></span></small><br>
+                                <form id="{{comment.id}}" class="collapse">
+                                        {%csrf_token%}
+                                        <p><input class="form form-control"  type="email" placeholder="Email" name="email" required ></p>
+                                        
+                                        <p><textarea class="form form-control" required placeholder="Enter comment here" cols="48" rows="10" name="comment"></textarea></p>
+                                        <p><button class="btn btn-primary" type="submit">Submit</button></p>
+                                </form>
+                            </div>  
+                            {%endfor%} 
+                </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 sidebar">
+                <div class="row shadow-lg p-3 mb-5 bg-white text-dark">
+                    <h5>Projects <span class="badge bg-danger text-light">{{projects|length}}</span></h5><hr >
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            {%for project in projects%}
+                            <div class=" j-items">
+                                <h4>{{project.title}}</h4>
+                                <img src="{{project.image.url}}">
+                            </div>
+                            {%endfor%}
+                        </div>
+                </div>
+                <!--tutorial list-->
+            </div>
+    </div>
+</div>
+{%endblock%}

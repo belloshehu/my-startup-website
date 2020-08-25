@@ -1,0 +1,74 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title %}Shopping Cart{% endblock %}
+{% block searchForm %}
+    <form class="navbar-form" action="" id="products-search-form">
+        <div class="input-group">
+            <input type="text" class="form form-control mr-sm-2" placeholder="Search for products" id="search-input">
+            <button class="btn btn-light round-btn" type="submit">
+               <li class="fa fa-search text-danger"></li>
+            </button>
+        </div>
+    </form>
+{% endblock %}
+{% block cart %} {% endblock %}
+{%block carousels%}
+<div class="container-fluid">
+  <div class="row">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 ">
+                <div class="row shadow-sm p-3 mb-5 bg-white text-dark">
+                    {% if carts %}
+                    <h3>Carts items<span class="badge bg-warning">{{carts|length}}</span><i class="fa fa-shopping-cart"></i></h3><hr>
+                    {% for cart in carts %}
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="shadow-lg p-3 mb-5 bg-white j-items multiple-items" id="content">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="margin:0%;">
+                                    <img src="{{cart.product.picture.url}}" width="50%" height="50%">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="margin: 0%;">
+                                    <a href="product/{{cart.product.id}}"><p>
+                                        <strong class="titles text-info">{{cart.product.name}}</strong>
+                                    </a>
+                                    <p>
+                                        <span class="text-dark lead" >
+                                            <i class="fa fa-calendar text-success" aria-hidden="true"></i> {{cart.date.date}}
+                                            <i class="fa fa-clock-o text-success" aria-hidden="true"></i> {{cart.date.time}}
+                                        </span>
+                                    </p>
+                                    <h4 class="text-danger">{{cart.product.price}} {{cart.product.currency}}
+                                        <span>
+                                            <button class="btn btn-outline-danger btn-sm ">
+                                                <a class="text-danger text-decoration-none" href="{% url 'embeddedsite:remove_from_cart' cart.product.id %}">
+                                                        Remove from cart <i class="fa fa-shopping-cart text-light" aria-hidden="true"></i>
+                                                </a>
+                                            </button>
+                                        </span>
+                                    
+                                        <button class="btn btn-outline-danger lead">
+                                            <a class="text-light text-decoration-none" href="{% url 'embeddedsite:product' cart.product.id %}">Checkout</a>
+                                        </button>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                    {% else %}
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                       <div class="shadow-lg p-3 mb-5 bg-white text-center">
+                            <h1><i class="fa fa-shopping-cart text-danger" aria-hidden="true">{{carts|length}}</i></h1>
+                            <h3 class="lead text-danger text-center">You have items in your shopping cart!</h3>
+                            <p>
+                                Add some products <a href="{% url 'embeddedsite:products' %}">here.</a>
+                            </p>
+                       </div>
+                     
+                    </div>
+                    {% endif %}
+                </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12"></div>
+  </div>
+</div>
+{%endblock%}
