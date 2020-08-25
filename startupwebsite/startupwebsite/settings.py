@@ -42,17 +42,10 @@ INSTALLED_APPS = [
     'embeddedsite',
     'django_countries',
     'bootstrap4',
-    'django_icons'
+
     
 ]
 
-DJANGO_ICONS = {
-    "ICONS": {
-        "search": {"name": "far fa-search"},
-        "edit": {"name": "far fa-pencil"},
-    },
-    
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
