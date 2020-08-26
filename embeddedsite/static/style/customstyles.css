@@ -4,12 +4,30 @@ hr{
     border: 2px solid black;
 
 }
-h3{
+h3 {
     font-family: broadway, algerian;
 }
+div.footer-item h4 {
+    font-family: forte;
+    color: darkgoldenrod;
+    text-align: left;
+}
+.footer-section, .footer-item {
+    text-align: center;
+}
+div.footer-item p {
+    margin: 0%;
+    font-family: forte;
+    color: darkgoldenrod;
+    text-align: left;
+}
+
+
+ i {
+    color: darkgoldenrod;
+}
 .j-items{
-    margin:0px; 
-    
+    margin:0px;    
 }
 
 .j-sidebar{
@@ -131,13 +149,20 @@ li.nav-item {
     border: 1px solid white;
     margin: 0px 1px 0px 1px;
 }
-#social-media a, #contact li {
+#social-media a, #contact i {
     text-decoration: none;
     padding: 1%;
     margin: 1%;
     border-radius: 50%;
     width: 40px;
+    text-align: center;
+}
 
+#social-media {
+    text-align: left;
+}
+#contact {
+    text-align: center;
 }
 .fa-facebook-f {
     background-color: rgb(80, 80, 200);
