@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import *
+from .models import (
+    Product, Project, Event, Tutorial,
+    Tutorship, TeamMember, Service, Circuit, TITLES, Comment
+    ) 
 from django.contrib.auth import authenticate, logout, login
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
@@ -10,6 +13,13 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
+    products = None
+    projects = None
+    services = None
+    tutorials = None
+    circuits = None
+    events = None
+    team_members = None
     try:
         products = Product.objects.all()
         projects = Project.objects.all()
@@ -23,7 +33,7 @@ def home(request):
         pass
     context = {'products':products, 'projects':projects, 'team_members':team_members,
      'tutorials':tutorials,'services':services, 'circuits':circuits, 'events':events}
-    return render(request, 'embeddedsite/home.html',context)
+    return render(request, 'embeddedsite/home.html', context)
 
 def products(request):
     products = Product.objects.all()
