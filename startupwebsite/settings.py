@@ -61,7 +61,9 @@ ROOT_URLCONF = 'startupwebsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+          'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'startupwebsite.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 if os.getcwd() == '/app':
-    DEBUG = False
+    DEBUG = True
     DATABASES = {
         'default': dj_database_url.config(
             default = config('DATABASE_URL')
