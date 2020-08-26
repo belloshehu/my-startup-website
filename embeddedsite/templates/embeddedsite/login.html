@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% block title %} Log in {% endblock %}
+{% block searchForm %}
+    <form class="navbar-form" action="" id="products-search-form">
+        <div class="input-group">
+            <input type="text" class="form form-control mr-sm-2" placeholder="Search for products" id="search-input">
+            <button class="btn btn-light round-btn" type="submit">
+               <li class="fa fa-search text-danger"></li>
+            </button>
+        </div>
+    </form>
+    {% endblock %}
+{%block carousels%}
+<div class="container-fluid">
+    <div class="row login">
+            <div class="col-xl-4 col-lg-4 col-sm-12"></div>
+            <div class="col-xl-4 col-lg-4 col-sm-12">
+                <div class="shadow-lg p-3 mb-5 bg-white lead" style="padding: 5%; margin: 15% 0% 0% 0%;">
+                    <h2 class="text-info titles text-center">Login <i class="fa fa-sign-in" aria-hidden="true"></i></h2>  
+                        {%for message in messages%}
+                            <div class="alert alert-info alert-dismissible show bg-danger text-light" id="comment">{{message}}</div>
+                        {%endfor%}
+                    <form class="" method="POST" action="/login/" id="login-form">
+                        {%csrf_token%}
+                        {% bootstrap_form form %}
+                        {% buttons %}
+                            <button name="submit" class="btn btn-info" style="margin-bottom: 10px;">Send</button>
+                        {% endbuttons %}
+                    </form>
+                    <p class="text-dark">Yet to register? <a href="{% url 'embeddedsite:signup'  %}" class="text-info">Sign up.</a></p>
+                    </div>
+            </div> 
+            <div class="col-xl-4 col-lg-4 col-sm-12"></div> 
+        
+    </div>
+ </div>
+{%endblock%}

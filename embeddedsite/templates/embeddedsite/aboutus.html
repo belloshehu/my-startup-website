@@ -1,0 +1,37 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% block title %} about us {% endblock %}
+{% block searchForm %}
+    <form class="navbar-form" action="" id="products-search-form">
+        <div class="input-group">
+            <input type="text" class="form form-control mr-sm-2" placeholder="Search for products" id="search-input">
+                <button class="btn btn-light round-btn" type="submit">
+                <li class="fa fa-search text-danger"></li>
+                </button>
+            </div>
+    </form>
+{% endblock %}
+{%block carousels%}
+<div class="container-fluid">
+    <div class="row">
+            <div class="col-xl-2 col-lg-2 col-sm-12"></div>
+            <div class="col-xl-8 col-lg-8 col-sm-12">
+                <div class="shadow-lg p-3 mb-5 bg-white text-dark" style="padding: 5%; margin: 5% 0% 0% 0%;">
+                   <div class="col-xl-12 col-lg-12 col-sm-12">
+                       <h3 class="titles text-info">About us <i class="fa fa-info-circle" aria-hidden="true"></i></h3><br>
+                        <p class="lead">
+                            We are into developing hardware and software solutions for companies or organisation. 
+                            
+                            Our team is made up of talented and hardworking professionals who have experience in providing the services we provide.
+                        </p>
+                        <p class="lead">
+                            In addition we also have hardware and software products you can purchase to use in your organisation, company or home. 
+                        </p>
+                   </div>
+                </div>
+            </div> 
+            <div class="col-xl-2 col-lg-2 col-sm-12"></div> 
+        
+    </div>
+ </div>
+{%endblock%}

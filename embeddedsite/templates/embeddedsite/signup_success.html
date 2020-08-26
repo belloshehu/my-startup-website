@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% block title %} about us {% endblock %}
+{% block searchForm %}
+    <form class="navbar-form" action="" id="products-search-form">
+        <div class="input-group">
+            <input type="text" class="form form-control mr-sm-2" placeholder="Search for products" id="search-input">
+                <button class="btn btn-light round-btn" type="submit">
+                <li class="fa fa-search text-danger"></li>
+                </button>
+            </div>
+    </form>
+{% endblock %}
+{%block carousels%}
+<div class="container-fluid">
+    <div class="row">
+            <div class="col-xl-2 col-lg-2 col-sm-12"></div>
+            <div class="col-xl-8 col-lg-8 col-sm-12">
+                <div class="shadow-lg p-3 mb-5 bg-white text-dark" style="padding: 5%; margin: 5% 0% 0% 0%;">
+                   <div class="col-xl-12 col-lg-12 col-sm-12 text-center">
+                       <h3 class="titles text-info">Successfully signed up!</h3><br>
+                        <p> Login <a href="{% url 'embeddedsite:login' %}">here</a> or go back to <a href="{% url 'embeddedsite:home' %}">home page</a></p>
+                   </div>
+                </div>
+            </div> 
+            <div class="col-xl-2 col-lg-2 col-sm-12"></div> 
+    </div>
+ </div>
+{%endblock%}

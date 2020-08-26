@@ -1,0 +1,87 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title %} Tutorials {% endblock %}
+{% block searchForm %}
+    <form class="navbar-form" action="" id="tutorials-search-form">
+        <div class="input-group">
+            <input type="text" class="form form-control mr-sm-2" placeholder="Search for tutorials" id="search-input">
+            <button class="btn btn-light round-btn" type="submit">
+               <li class="fa fa-search text-danger"></li>
+            </button>
+        </div>
+    </form>
+{% endblock %}
+{%block carousels%}
+  <div class="container-fluid">
+    <div class="row">
+    <!--Left bar-->
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-0 sidebar">
+        <div class="row shadow-lg p-3 mb-5 bg-white text-danger">
+            <h5>Tutorials  <span class="badge bg-danger text-light">{{tutorials|length}}</span></h5>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: left;margin-bottom: 10px;">
+                    <ul>
+                    {%for tutorial in tutorials%}
+                        <li>
+                            <i class="fa fa-graduation-cap text-danger" aria-hidden="true"></i>
+                            <a href="tutorials/{{tutorial.id}}"><span class="text-dark" style="font-size: small;">{{tutorial.title}}</span></a>                
+                        </li>
+                    {%endfor%}
+                    </ul>
+                </div>
+        </div>
+    </div>
+    <!--Main section-->
+    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div class="row shadow-sm p-3 mb-5 bg-white text-danger">
+            <h5><span class="badge bg-danger text-light">{{tutorships|length}} </span> 
+                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+            </h5><hr>
+            {% if tutorials %}
+                {%for tutorship in tutorships%}
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                    <div class="row shadow-lg p-3 mb-5 bg-white text-dark j-items multiple-items">
+                        <p>
+                            <h5 class="text-danger">{{tutorship.tutorial.title}}</h5>
+                            <p class="text-light bg-dark"  style="margin-left: 2%;">
+                                <strong class="lead"> <i class="fa fa-user-circle text-success" aria-hidden="true"></i>
+                                    {%if tutorship.author.user.first_name%}
+                                        {{tutorship.author.user.first_name}} {{tutorship.author.user.last_name}}
+                                    {%else%}
+                                        {{tutorship.author.user.username}}
+                                    {%endif%}   
+                                </strong>
+                            </p> 
+                        </p>
+                        <img src="{{tutorship.tutorial.image.url}}">
+                        <p class="text-dark lead">{{tutorship.tutorial.introduction}}</p>    
+                        <button class="btn btn-outline-success">
+                            <a class="text-danger text-decoration-none" href="{% url 'embeddedsite:tutorial' tutorship.tutorial.id %}">Explore</a>
+                        </button>
+                    </div>
+                </div>
+                {%endfor%}
+            {% else %}
+                <p>
+                    <h3 class="lead text-danger text-center">Contents not added yet!</h3>
+                </p>
+                    
+            {% endif %}
+        </div>
+    </div>
+    <!--Right bar-->
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-0 sidebar">
+        <div class="row shadow-lg p-3 mb-5 bg-white text-danger">
+            <h5>Projects <span class="badge bg-danger text-light">{{projects|length}}</span></h5><hr >
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                {%for project in projects%}
+                <div class=" j-items">
+                    <h4>{{project.title}}</h4>
+                    <img src="{{project.image.url}}">
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
+{%endblock%}
