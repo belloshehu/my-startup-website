@@ -19,7 +19,7 @@ def home(request):
     events = Event.objects.all()
     context = {'products':products, 'projects':projects, 'team_members':team_members, 'tutorials':tutorials,
      'services':services, 'circuits':circuits, 'events':events}
-    return render(request, 'startupwebsite/home2.html',context)
+    return render(request, 'embeddedsite/home.html',context)
 
 def products(request):
     products = Product.objects.all()
@@ -29,7 +29,7 @@ def products(request):
     team_members = TeamMember.objects.all()
     context = {'products':products, 'projects':projects, 'team_members':team_members, 'tutorials':tutorials,
      'services':services,}
-    return render(request, 'startupwebsite/products.html',context)
+    return render(request, 'embeddedsite/products.html',context)
 
 
 def user_login(request):
@@ -47,7 +47,7 @@ def user_login(request):
             redirect(reverse('embeddedsite:login'))
     team_members = TeamMember.objects.all()
     context = {'form':form, 'team_members':team_members}
-    return render(request,'startupwebsite/login.html',context)
+    return render(request,'embeddedsite/login.html',context)
 
 
 def user_logout(request):
@@ -64,7 +64,8 @@ def tutorials(request):
     tutorships = Tutorship.objects.all()
     context = {'products':products, 'projects':projects, 'team_members':team_members, 'tutorials':tutorials,
      'services':services,'tutorships':tutorships}
-    return render(request, 'startupwebsite/tutorials.html', context)
+    return render(request, 'embeddedsite/tutorials.html', context)
+
 
 def tutorial(request, tutorial_id):
     tutorial_id = int(tutorial_id)
@@ -80,7 +81,8 @@ def tutorial(request, tutorial_id):
         'projects':projects,'tutorials':tutorials,'comments':comments,
         'team_members':team_members,'form':form
         }    
-    return render(request, 'startupwebsite/tutorial.html', context)
+    return render(request, 'embeddedsite/tutorial.html', context)
+
 
 def handle_comment_submission(request, tutorial_id):
     email = request.POST['email']
@@ -95,6 +97,7 @@ def handle_comment_submission(request, tutorial_id):
     except User.DoesNotExist:
         messages.info(request, 'Error: Check your email or you should sign up')
         return redirect('tutorial',tutorial_id)
+
 
 def sign_up(request):
     form = UserRegistration()
@@ -115,12 +118,12 @@ def sign_up(request):
                 redirect('embeddedsite:signup_success')
     team_members = TeamMember.objects.all()
     context = {'team_members':team_members, 'form':form}
-    return render(request, 'startupwebsite/signup.html', context)
+    return render(request, 'embeddedsite/signup.html', context)
 
 
 def signup_success(request):
     context = {}
-    return render(request, 'startupwebsite/signup_success.html', context)
+    return render(request, 'embeddedsite/signup_success.html', context)
 
 
 def product(request,product_id):
@@ -128,7 +131,7 @@ def product(request,product_id):
     product =Product.objects.get(id=product_id)
     team_members = TeamMember.objects.all()
     context = {'product':product, 'team_members':team_members,}
-    return render(request, 'startupwebsite/product.html',context)
+    return render(request, 'embeddedsite/product.html',context)
 
 
 def show_cart(request):
@@ -140,7 +143,7 @@ def show_cart(request):
         except Cart.DoesNotExist:
             redirect('embeddedsite:home')
         context = {'carts':carts,}
-        return render(request, 'startupwebsite/cart.html',context)
+        return render(request, 'embeddedsite/cart.html',context)
     redirect('embeddedsite:login')
 
 
@@ -154,7 +157,7 @@ def add_to_cart(request, product_id):
             cart.save()
         carts = Cart.objects.filter(customer=request.user.id)
         context = {'carts':carts, 'team_members':team_members,}
-        return render(request, 'startupwebsite/cart.html',context)
+        return render(request, 'embeddedsite/cart.html',context)
     else:
         return redirect('login')
 
@@ -173,23 +176,23 @@ def remove_from_cart(request, product_id):
 
     
 def enquiry(request):
-    return render(request, 'startupwebsite/enquiry.html', )
+    return render(request, 'embeddedsite/enquiry.html', )
 
 
 def circuits(request):
-    return render(request, 'startupwebsite/circuits.html', )
+    return render(request, 'embeddedsite/circuits.html', )
 
 
 def about_us(request):
-    return render(request, 'startupwebsite/aboutus.html',)
+    return render(request, 'embeddedsite/aboutus.html',)
 
 
 def services(request):
-   return render(request, 'startupwebsite/services.html',)
+   return render(request, 'embeddedsite/services.html',)
 
 
 def projects(request):
-    return render(request, 'startupwebsite/projects.html',)
+    return render(request, 'embeddedsite/projects.html',)
 
 
 def search_products(request):
