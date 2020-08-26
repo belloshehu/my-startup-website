@@ -47,7 +47,7 @@ def user_login(request):
             redirect(reverse('embeddedsite:login'))
     team_members = TeamMember.objects.all()
     context = {'form':form, 'team_members':team_members}
-    return render(request,'login.html',context)
+    return render(request,'startupwebsite/login.html',context)
 
 
 def user_logout(request):
