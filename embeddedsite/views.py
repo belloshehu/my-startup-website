@@ -10,15 +10,19 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
-    products = Product.objects.all()
-    projects = Project.objects.all()
-    services = Service.objects.all()
-    tutorials = Tutorial.objects.all()
-    team_members = TeamMember.objects.all()
-    circuits = Circuit.objects.all()
-    events = Event.objects.all()
-    context = {'products':products, 'projects':projects, 'team_members':team_members, 'tutorials':tutorials,
-     'services':services, 'circuits':circuits, 'events':events}
+    try:
+        products = Product.objects.all()
+        projects = Project.objects.all()
+        services = Service.objects.all()
+        tutorials = Tutorial.objects.all()
+        team_members = TeamMember.objects.all()
+        circuits = Circuit.objects.all()
+        events = Event.objects.all()
+    except (Product.DoesNotExist, Project.DoesNotExist, Service.DoesNotExist,
+        Tutorial.DoesNotExist, TeamMember.DoesNotExist, Circuit.DoesNotExist, Event.DoesNotExist):
+        pass
+    context = {'products':products, 'projects':projects, 'team_members':team_members,
+     'tutorials':tutorials,'services':services, 'circuits':circuits, 'events':events}
     return render(request, 'embeddedsite/home.html',context)
 
 def products(request):

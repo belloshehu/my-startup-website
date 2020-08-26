@@ -2,6 +2,7 @@
 {% load static %}
 {% block searchForm %} 
   <form class="navbar-form" action="" id="products-search-form">
+    {% csrf_token %}
     <div class="input-group">
         <input type="text" class="form form-control mr-sm-2" placeholder="Search for products" id="search-input">
         <button class="btn btn-light round-btn" type="submit">
